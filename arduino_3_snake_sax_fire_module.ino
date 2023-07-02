@@ -12,10 +12,12 @@ const uint8_t dePin = 2;
 const uint8_t flamethrowers = 5;
 
 //  Modbus data structures
-const uint8_t coils = flamethrowers;
+const uint8_t coils = flamethrowers + 1;
 
 uint8_t buffer[bufferSize];
 ModbusRTUSlave modbus(Serial, buffer, bufferSize, dePin);
+
+bool fireAll = false;
 
 //  Thing!
 uint32_t currentTick = 0;
@@ -32,11 +34,19 @@ int8_t coilRead(uint16_t address)
 
 bool coilWrite(uint16_t address, bool data)
 {
-    if (address < coils && address > 0)
+    if (address <= coils && address > 0)
     {
         if (data)
-        {
-            flameStartTick[address-1] = currentTick;
+        {   
+            if (address == 5 && fireAll)
+            {
+                for (uint8_t f = 0; f < flamethrowers; f++)
+                {
+                    flameStartTick[f] = currentTick;
+                }
+            } else {
+                flameStartTick[address-1] = currentTick;
+            }
             return true;
         }
         return true;
