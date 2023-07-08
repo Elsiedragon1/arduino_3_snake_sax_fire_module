@@ -54,7 +54,7 @@ bool coilWrite(uint16_t address, bool data)
     return false;
 }
 
-const bool LowOn = false;
+const bool LowOn = true;
 
 uint32_t lastFlamethrowerTick = 0;
 uint32_t flamethrowerInterval = 1000/60;    // 60fps
