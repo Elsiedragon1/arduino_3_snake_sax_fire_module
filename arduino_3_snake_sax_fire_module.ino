@@ -18,6 +18,7 @@ uint8_t buffer[bufferSize];
 ModbusRTUSlave modbus(Serial, buffer, bufferSize, dePin);
 
 bool fireAll = false;
+const bool LowOn = true;
 
 //  Thing!
 uint32_t currentTick = 0;
@@ -53,8 +54,6 @@ bool coilWrite(uint16_t address, bool data)
     }
     return false;
 }
-
-const bool LowOn = true;
 
 uint32_t lastFlamethrowerTick = 0;
 uint32_t flamethrowerInterval = 1000/60;    // 60fps
@@ -124,6 +123,9 @@ void setup() {
     Serial.begin(baud, config);
     modbus.begin(id, baud, config);
     modbus.configureCoils(coils, coilRead, coilWrite);
+
+    // A small delay to ensure that the flamethrowers do not automatically fire on startup!
+    delay(300);
 }
 
 void loop() {
