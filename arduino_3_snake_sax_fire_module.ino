@@ -1,7 +1,7 @@
 #include <ModbusRTUSlave.h>
 
 //  Modbus ID
-const uint16_t id = 2;
+const uint16_t id = 3;
 
 //  Serial configuration
 const uint32_t baud = 115200;
@@ -22,7 +22,7 @@ bool fireAll = false;
 //  Thing!
 uint32_t currentTick = 0;
 
-uint32_t flameOnTime = 150; // Half a second operation time for the flamethrowers is a good starting point
+uint32_t flameOnTime = 150;
 // This can be as low as 100-150 ms according to the DMX system paka uses
 
 uint32_t flameStartTick[flamethrowers] = { 0 };
@@ -120,7 +120,6 @@ void setup() {
         digitalWrite(6, LOW);
         digitalWrite(7, LOW);
     }
-
 
     Serial.begin(baud, config);
     modbus.begin(id, baud, config);
